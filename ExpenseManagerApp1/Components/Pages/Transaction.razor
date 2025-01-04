@@ -1,0 +1,69 @@
+﻿@page "/transaction"
+@using ExpenseManagerApp1.Model;
+<h3>Transaction</h3>
+
+<form action="">
+    <div>   
+        <label>TransactionTile</label>
+    <input type="text" placeholder="Title" @bind="transaction.Title"/>
+
+    </div>
+
+    <div>
+        <label>Transaction Date</label>
+        <input type="text" placeholder="Title" @bind ="transaction.Date" />
+
+    </div>
+    <div>
+        <label>Transaction Status</label>
+        <input type="text" placeholder="Title" @bind="transaction.Status"/>
+
+    </div>
+    <div>
+        <label>Transaction Type</label>
+        <input type="text" placeholder="Title" @bind="transaction.Type"/>
+
+    </div>
+    <div>
+        <label>Transaction Amount </label>
+        <input type="text" placeholder="Title" @bind="transaction.Amount" />
+    </div>
+
+
+    <button type="submit" @onclick="saveData">Submit</button>
+
+</form>
+
+
+@{
+    IEnumerable<Model.Transaction> transactionsLists = _transactionList;
+
+
+@foreach(var items in transactionsLists)
+{
+    <p>@items.Status</p>
+    <p>@items.Amount</p>
+}
+
+}
+
+@code {
+
+    private List<Model.Transaction> _transactionList { get; set; } 
+    private Model.Transaction transaction { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _transactionList = TodosService.GetAll(0);
+        transaction = new Model.Transaction();
+    }
+
+    public void saveData()
+    {
+        if(transaction.Id == 0)
+        {
+            _transactionList = TodosService.Create(0, transaction);
+        }
+    }
+
+}
